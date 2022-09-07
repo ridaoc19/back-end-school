@@ -9,11 +9,13 @@ TypeUsers.init(
       primaryKey: true,
       autoIncrement: true,
   },
-  TypeUsers:{
+  typeUsers:{
       type: DataTypes.STRING,
       allowNull: false,
   },
-  },  { sequelize, timestamps: false }
+  },  { sequelize,
+      modelName: "typeusers",
+     timestamps: false }
 );
 
 module.exports = TypeUsers;
