@@ -25,8 +25,14 @@ Users.init(
       type: DataTypes.STRING,
       allowNull: false,
     },
+    password: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
   },
-  { sequelize, timestamps: false }
+  { sequelize,
+    modelName: "users",
+    timestamps: false }
 );
 
 module.exports = Users;

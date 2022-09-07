@@ -1,33 +1,33 @@
 const { DataTypes, Model } = require("sequelize");
 const sequelize = require("../../../src/core/database/db.js");
 
-class Students extends Model {}
-Students.init(
+class Payments extends Model {}
+Payments.init(
   {
-idStudent: {
+idPayment: {
   type: DataTypes.INTEGER,
   primaryKey: true,
   autoIncrement: true,
   },
-  firstNames: {
+  detail: {
     type: DataTypes.STRING,
     allowNull: false,
   },
-  lastName: {
-    type: DataTypes.STRING,
+  amount: {
+    type: DataTypes.INTEGER,
     allowNull: false,
   },
-  dniStudent: {
-      type: DataTypes.STRING,
+  state: {
+      type: DataTypes.BOOLEAN,
       allowNull: false,
   },
-  birthDate:{
+  paymentDate:{
       type: DataTypes.DATEONLY,
-     
+      defaultValue: DataTypes.NOW,
   }
   }, { sequelize,
-    modelName: "students",
+    modelName: "payments",
      timestamps: false }
 );
 
-module.exports = Students;
+module.exports = Payments;
