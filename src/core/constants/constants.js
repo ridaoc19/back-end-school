@@ -3,7 +3,12 @@ const POST_TUTOR = "POST_TUTOR";
 const POST_PRECEPTOR = "POST_PRECEPTOR";
 const POST_SUPERVISOR = "POST_SUPERVISOR";
 
+<<<<<<< HEAD
 
+=======
+const POST_TUTOR_JSON = {
+}
+>>>>>>> develop
 
 
 
