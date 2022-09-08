@@ -4,7 +4,7 @@ const Users = require("./users.models");
 
 module.exports = {
 
-  async administrativo(body) {
+  async administrativo(body, res) {
     let password = bcrypt.hashSync(body.users.password, 10);
     let users = Users.create({
       firstNames: body.users.firstNames,
@@ -12,6 +12,7 @@ module.exports = {
       phone: body.users.phone,
       email: body.users.email,
       password: password,
+      active: true,
       typeuserIdTypeUsers: body.users.typeuserIdTypeUsers,
     })
       .then((user) => {
@@ -25,8 +26,10 @@ module.exports = {
   },
 
 
-  async tutor(body) {
+  async tutor(body, res) {
 
+    try {
+      
     const user = await body.users.map((element) => {
       let password = bcrypt.hashSync(element.password, 10);
       return {
@@ -35,29 +38,34 @@ module.exports = {
         phone: element.phone,
         email: element.email,
         password: password,
+        active: true,
         typeuserIdTypeUsers: element.typeuserIdTypeUsers,
       };
     });
 
     const users = await Users.bulkCreate(user);
-
+    
     body.students.forEach((element) => {
       Students.create({
         firstNames: element.firstNames,
         lastName: element.lastName,
         dniStudent: element.dniStudent,
         birthDate: element.birthDate,
+        active: true,
         courseIdCourse: element.courseIdCourse,
       }).then((student) => {
         student.addUser(users);
       });
     });
 
-    return users;
+    return res.status(200).json(users);
+  } catch (error) {
+    return res.status(404).json(error);
+  }
   },
   
 
-  async preceptor(body) {
+  async preceptor(body, res) {
 
     let password = bcrypt.hashSync(body.users.password, 10);
 
@@ -67,6 +75,7 @@ module.exports = {
       phone: body.users.phone,
       email: body.users.email,
       password: password,
+      active: true,
       typeuserIdTypeUsers: body.users.typeuserIdTypeUsers,
     })
     .then((user) => {
@@ -79,6 +88,10 @@ module.exports = {
 
     return create;
   },
+
+
+
+  
 
 };
 

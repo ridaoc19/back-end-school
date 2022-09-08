@@ -15,11 +15,11 @@ app.listen(PORT, function () {
     .sync({ force: false })
     .then(async () => {
       const size_CourseDb = await Course.count();
-      if (!size_CourseDb)  await Course.bulkCreate(courses);
+      if (!size_CourseDb) await Course.bulkCreate(courses);
 
       const size_TypeUserDb = await TypeUsers.count();
-      if (!size_TypeUserDb)  await TypeUsers.bulkCreate(typeusers);
-      
+      if (!size_TypeUserDb) await TypeUsers.bulkCreate(typeusers);
+
       console.log("Nos hemos conectado a la base de datos");
     })
     .catch((error) => {

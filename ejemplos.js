@@ -1,48 +1,48 @@
 let TUTOR ={
-  "type": "POST_TUTOR",
-  "users": [
-      {
-          "firstNames": "Anton",
-          "lastName": "apeAnto",
-          "phone": "3245435435",
-          "email": "azr@azr.es",
-          "password": "123dfg",
-          "typeuserIdTypeUsers": "3"
-      },
-      {
-          "firstNames": "Pepe",
-          "lastName": "apePepe",
-          "phone": "87686858",
-          "email": "pepe@gmail.com",
-          "password": "123dfg",
-          "typeuserIdTypeUsers": "3"
-      },
-      {
-          "firstNames": "Lucia",
-          "lastName": "apeLuia",
-          "phone": "45342009624",
-          "email": "lucia@hotmail.com",
-          "password": "123dfg",
-          "typeuserIdTypeUsers": "3"
-      }
-  ],
-  "students": [
-      {
-          "firstNames": "maximiliano",
-          "lastName": "david",
-          "dniStudent": "33464646",
-          "birthDate": "12-02-1990",
-          "courseIdCourse": "2"
-      },
-      {
-          "firstNames": "juan",
-          "lastName": "ocampo",
-          "dniStudent": "54665",
-          "birthDate": "12-02-1990",
-          "courseIdCourse": "1"
-      }
-  ]
-}
+    "type": "POST_TUTOR",
+    "users": [
+        {
+            "firstNames": "Anton",
+            "lastName": "apeAnto",
+            "phone": "3245435435",
+            "email": "azr@azr.es",
+            "password": "123dfg",
+            "typeuserIdTypeUsers": "3"
+        },
+        {
+            "firstNames": "Pepe",
+            "lastName": "apePepe",
+            "phone": "87686858",
+            "email": "pepe@gmail.com",
+            "password": "123dfg",
+            "typeuserIdTypeUsers": "3"
+        },
+        {
+            "firstNames": "Lucia",
+            "lastName": "apeLuia",
+            "phone": "45342009624",
+            "email": "lucia@hotmail.com",
+            "password": "123dfg",
+            "typeuserIdTypeUsers": "3"
+        }
+    ],
+    "students": [
+        {
+            "firstNames": "maximiliano",
+            "lastName": "david",
+            "dniStudent": "33464646",
+            "birthDate": "2005-4-13",
+            "courseIdCourse": "2"
+        },
+        {
+            "firstNames": "juan",
+            "lastName": "ocampo",
+            "dniStudent": "54665",
+            "birthDate": "2005-4-13",
+            "courseIdCourse": "1"
+        }
+    ]
+  }
 
 
 let POST_ADMINISTRATIVO = {
@@ -87,28 +87,43 @@ let POST_PRECEPTOR = {
 }
 
 
-let ALGO = {
-    type: 'POST_PRECEPTOR',
-    users: {
-      firstNames: 'Antonio',
-      lastName: 'Longo',
-      phone: 'estelivi@gmail.com',
-      email: '38145345234',
-      password: 'Longo'
-    }
-  }
+/////////////////////////////////////ESTUDIANTES ///////////////////7
 
 
+let ACTUALIZA = {
+    "idStudent": "2",
+    "firstNames": "estuar",
+    "lastName": "belt",
+    "dniStudent": "55555",
+    "birthDate": "2005-4-13",
+    "courseIdCourse": "6"
+}
 
-///////////////////////////////////////NOTIFICACION/////////////////////////////////////////////////
-
-let NOTIFICATION = {   
-    "subject": "informando",
-    "body": "texto texto texto text",
-    "addresseeId": "1",
-    "senderId": ["3", "4"],
+let ELIMINAR = {
+    "idStudent": "1"
 }
 
 
+///////////////////////////////////////NOTIFICACION/////////////////////////////////////////////////
+//POST
 
-
+{   
+    "subject": "nuevo viaje",
+    "body": "vamos a hacer un viaje",
+    "senderId": "6",
+    "addresseeId": "1"
+},
+{   
+    "subject": "no se cuando es el nuevo viaje",
+    "body": "no dijeron cuando sera",
+    "senderId": "1",
+    "addresseeId": "6",
+    "replyedFrom": "1"
+},
+{   
+    "subject": "nuevo viaje",
+    "body": "sera mañana",
+    "senderId": "6",
+    "addresseeId": "1",
+    "replyedFrom": "2"
+},

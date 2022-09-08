@@ -2,47 +2,47 @@ const Users = require("../users/users.models");
 const Students = require("./students.models");
 
 module.exports = {
-  // CREAR USUARIO
-  async createUser(req, res, next) {
-    let { firstNames, lastName, dniStudent, birthDate } = req.body;
-
+  async putStudent(req, res) {
     try {
-      let createStudents = await Students.create({
-        firstNames,
-        lastName,
-        dniStudent,
-        birthDate,
-      });
+      let put = await Students.update(
+        {
+          firstNames: req.body.firstNames,
+          lastName: req.body.lastName,
+          dniStudent: req.body.dniStudent,
+          birthDate: req.body.birthDate,
+          courseIdCourse: req.body.courseIdCourse,
+        },
+        {
+          where: {
+            idStudent: req.body.idStudent,
+          },
+        }
+      );
 
-      createStudents.addUser(req.body.users)
-
-      res.status(200).json(createStudents);
-
+      res.status(200).json(put);
     } catch (error) {
-      res.status(404).json({ error: error.messages });
-      next();
+      res.status(404).json({ error: error.message });
     }
   },
 
-  // LLAMA TODO INCLUYENDO TIPO DE USUARIO
-  async getAll(req, res) {
+  async deleteStudent(req, res) {
+    let { idStudent } = req.body;
     try {
-      const getall = await Students.findAll({ include: Users });
+      let search = await Students.findByPk(idStudent);
 
-      res.status(200).json(getall);
+      if (search.active) {
+        // search = "false",
+        await Students.update({ active: false },{ where: { idStudent: idStudent } }
+        );
+      } else {
+        // search = "true",
+        await Students.update({ active: true },{ where: { idStudent: idStudent } });
+      }
+      res.status(200).json(search);
+      
     } catch (error) {
-      res.status(403).send({ error: error.message });
+      res.status(404).json({ error: error.message });
     }
   },
 
-  // AL CONTRARIO
-  async getOTRO(req, res) {
-    try {
-      const getall = await Users.findAll({ include: Students });
-
-      res.status(200).json(getall);
-    } catch (error) {
-      res.status(403).send({ error: error.message });
-    }
-  },
 };
