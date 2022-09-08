@@ -10,12 +10,12 @@ Notifications.init(
       autoIncrement: true,
     },
     subject: {    //asunto
-      type: DataTypes.TEXT,
+      type: DataTypes.STRING,
       allowNull: false,
 
     },
     body: {     //contenido
-      type: DataTypes.TEXT,
+      type: DataTypes.STRING,
       allowNull: false,
 
     },
@@ -24,12 +24,22 @@ Notifications.init(
     },
     notificationDate: {
       type: DataTypes.DATEONLY,
-
     },
     active: {
       type: DataTypes.BOOLEAN,
-
     },
+    archived: {
+      type: DataTypes.BOOLEAN,
+    },
+    favorite: {
+      type: DataTypes.BOOLEAN,
+    },
+    check: {
+      type: DataTypes.BOOLEAN,
+    },
+    image: {
+      type: DataTypes.STRING,
+    }
   },
   { sequelize,
     modelName: "notifications",

@@ -35,9 +35,11 @@ Notifications.belongsToMany(Users, {through: users_notifications,  foreignKey: "
 Users.belongsToMany(Notifications, {through: users_notifications, foreignKey: "addresseeId" }) // belongs To Many
 
 // UNO-MUCHOS -- users-students
-Users.hasMany(Notifications, {   foreignKey: 'senderId' });
+Users.hasMany(Notifications, { foreignKey: 'senderId' });
 Notifications.belongsTo(Users, {as: "sender",foreignKey: 'senderId' });
 
+Notifications.hasMany(Notifications, {   foreignKey: 'replyedFrom' });
+Notifications.belongsTo(Notifications, {as: "replyed",foreignKey: 'replyedFrom' });
 
 Payments.belongsToMany(Users, {through: 'users_payments'}) // belongs To Many
 Users.belongsToMany(Payments, {through: 'users_payments'}) // belongs To Many

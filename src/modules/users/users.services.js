@@ -3,7 +3,6 @@ const {
   POST_ADMINISTRATIVO,
   POST_PRECEPTOR,
   POST_SUPERVISOR,
-  POST_TUTOR_JSON
 } = require("../../core/constants/constants.js");
 const bcrypt = require("bcrypt");
 const TypeUsers = require("../typeUsers/typeUsers.models");
@@ -20,19 +19,19 @@ module.exports = {
   async createUser(req, res) {
     switch (req.body.type) {
       case POST_TUTOR:
-        let replyTutors = await tutor(req.body);
-        return res.status(200).json(replyTutors);
+        let replyTutors = await tutor(req.body, res);
+        return replyTutors;
       case POST_ADMINISTRATIVO:
-        let replyAdmin = await administrativo(req.body);
+        let replyAdmin = await administrativo(req.body, res);
         return replyAdmin;
       case POST_PRECEPTOR:
-        let replyPreceptor = await preceptor(req.body);
-        return res.status(200).json(replyPreceptor);
+        let replyPreceptor = await preceptor(req.body, res);
+        return replyPreceptor;
       case POST_SUPERVISOR:
-        let replySupervisor = await administrativo(req.body);
+        let replySupervisor = await administrativo(req.body, res);
         return replySupervisor;
       default:
-        res.json({error: "error in sending the type"});
+        res.json({ error: "error in sending the type" });
     }
   },
 
@@ -42,8 +41,8 @@ module.exports = {
       const getall = await Users.findAll({
         include: [
           {
-             model: TypeUsers, 
-            attributes: ["typeUsers"] },
+            model: TypeUsers,
+          },
           {
             model: Students,
             attributes: [
@@ -57,11 +56,10 @@ module.exports = {
             include: [
               {
                 model: Course,
-                attributes: ["nameCourse"],
               },
             ],
           },
-          { model: Course, attributes: ["nameCourse"] },
+          { model: Course },
         ],
         attributes: ["idUser", "firstNames", "lastName", "phone", "email"],
       });
@@ -77,7 +75,7 @@ module.exports = {
       where: {
         email: req.body.email,
       },
-      include: { model: TypeUsers, attributes: ["typeUsers"] },
+      include: { model: TypeUsers },
     }).then(async (user) => {
       if (!user)
         return res
@@ -87,24 +85,56 @@ module.exports = {
       const match = await bcrypt.compare(req.body.password, user.password);
       if (!match) return res.status(404).json({ msg: "Contraseña incorrecta" });
 
-      let todo = await Users.findAll({
-        include: [{model: TypeUsers}]
-      })
-      
-      res.status(200).json([user, todo]);
+      // let todo = await Users.findAll({
+      //   include: [{model: TypeUsers}]
+      // })
+
+      res.status(200).json(user);
     });
   },
 
-
-  async precarga(req, res) {
-    console.log(TUTOR);
+  async putUser(req, res) {
+    console.log(req.body)
     try {
-      Users.bulkCreate(TUTOR.Users) 
-        .then(res.status(200).send("se creo bien"))
-        .catch(error => res.json(error))
-    } catch (error) {
-        res.status(403).send({error: "No funciono la precarga de datos"})
-    }
-  }
+      let put = await Users.update(
+        {
+          firstNames: req.body.firstNames,
+          lastName: req.body.lastName,
+          phone: req.body.phone,
+          email: req.body.email,
+           
+          typeuserIdTypeUsers: req.body.TypeUsers,
+          },
+        {
+          where: {
+            idUser: req.body.idUser,
+          },
+        }
+      );
 
+      res.status(200).json(put);
+    } catch (error) {
+      res.status(404).json({ error: error.message });
+    }
+  },
+
+  async deleteUser(req, res) {
+    let { idUser } = req.params;
+    try {
+      let search = await Users.findByPk(idUser);
+
+      if (search.active) {
+        search = "false",
+        await Users.update({ active: false },{ where: { idUser: idUser } }
+        );
+      } else {
+        search = "true",
+        await Users.update({ active: true },{ where: { idUser: idUser } });
+      }
+      res.status(200).json(search);
+      
+    } catch (error) {
+      res.status(404).json({ error: error.message });
+    }
+  },
 };
