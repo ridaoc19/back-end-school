@@ -46,12 +46,12 @@ Students.init(
     dniStudent: {
       type: DataTypes.INTEGER,
       allowNull: false,
-      validate: {
-        notNull: {
-          msg: "The field cannot be null",
-        },
-        isInt: true,
-      },
+      // validate: {
+      //   notNull: {
+      //     msg: "The field cannot be null",
+      //   },
+      //   isInt: true,
+      // },
     },
     birthDate: {
       type: DataTypes.DATEONLY,
