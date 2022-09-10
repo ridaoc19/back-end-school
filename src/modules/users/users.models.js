@@ -44,11 +44,11 @@ Users.init(
       },
     },
     phone: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.BIGINT,
       allowNull: false,
-      validate: {
-        isInt: true
-      }
+      // validate: {
+      //   isInt: true
+      // }
     },
     email: {
       type: DataTypes.STRING,

@@ -4,13 +4,11 @@ const Course = require("./src/modules/course/course.models");
 const TypeUsers = require("./src/modules/typeusers/typeusers.models");
 const { courses, typeusers } = require("./src/core/constants/firstTables.js");
 
-// Setting
 const PORT = process.env.PORT || 3000;
 
-// Arrancamos el servidor
 app.listen(PORT, function () {
   console.log(`http://localhost:${PORT}`);
-  // Conectase a la base de datos
+
   sequelize
     .sync({ force: false })
     .then(async () => {

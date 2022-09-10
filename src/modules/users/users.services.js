@@ -7,7 +7,7 @@ const {
 const bcrypt = require("bcrypt");
 const TypeUsers = require("../typeUsers/typeUsers.models");
 const Users = require("./users.models");
-const { tutor, preceptor, administrativo } = require("./users.functions.js");
+const { tutor, preceptor, administrativo, idUserInfo } = require("./users.functions.js");
 const Students = require("../students/students.models.js");
 const Course = require("../course/course.models.js");
 
@@ -137,4 +137,11 @@ module.exports = {
       res.status(404).json({ error: error.message });
     }
   },
+
+  getGoogle(req, res) {
+    idUserInfo(req.user, res)
+    
+  }
+
+
 };
