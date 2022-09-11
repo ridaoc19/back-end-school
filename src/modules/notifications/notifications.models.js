@@ -22,6 +22,7 @@ Notifications.init(
     creationDate: {
       type: DataTypes.DATEONLY,
     },
+    /*
     notificationDate: {
       type: DataTypes.DATEONLY,
     },
@@ -40,6 +41,7 @@ Notifications.init(
     image: {
       type: DataTypes.STRING,
     }
+    */
   },
   { sequelize,
     modelName: "notifications",

@@ -7,7 +7,7 @@ const {
 const bcrypt = require("bcrypt");
 const TypeUsers = require("../typeUsers/typeUsers.models");
 const Users = require("./users.models");
-const { tutor, preceptor, administrativo, idUserInfo } = require("./users.functions.js");
+const { tutor, preceptor, administrativo, idUserInfo, resPassword } = require("./users.functions.js");
 const Students = require("../students/students.models.js");
 const Course = require("../course/course.models.js");
 
@@ -70,29 +70,6 @@ module.exports = {
     }
   },
 
-  async getPassword(req, res) {
-    Users.findOne({
-      where: {
-        email: req.body.email,
-      },
-      include: { model: TypeUsers },
-    }).then(async (user) => {
-      if (!user)
-        return res
-          .status(404)
-          .json({ msg: "Usuario con este correo no encontrado" });
-
-      const match = await bcrypt.compare(req.body.password, user.password);
-      if (!match) return res.status(404).json({ msg: "Contraseña incorrecta" });
-
-      // let todo = await Users.findAll({
-      //   include: [{model: TypeUsers}]
-      // })
-
-      res.status(200).json(user);
-    });
-  },
-
   async putUser(req, res) {
     console.log(req.body)
     try {
@@ -138,9 +115,28 @@ module.exports = {
     }
   },
 
+  async getPassword(req, res) {
+    Users.findOne({
+      where: {
+        email: req.body.email,
+      }
+    }).then(async (user) => {
+      if (!user)
+        return res.status(404).json({ msg: "Usuario con este correo no encontrado" });
+
+      const match = await bcrypt.compare(req.body.password, user.password);
+      if (!match) return res.status(404).json({ msg: "Contraseña incorrecta" });
+
+      idUserInfo(user.idUser, res)
+    });
+  },
+
+  async resetPassword(req, res) {
+    resPassword(req, res)
+  },
+
   getGoogle(req, res) {
-    idUserInfo(req.user, res)
-    
+    idUserInfo(req.user.idUser, res)   
   }
 
 
