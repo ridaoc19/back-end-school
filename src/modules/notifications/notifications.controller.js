@@ -5,4 +5,5 @@ const { createNotification, getAllNotification } = require('./notifications.serv
 router.post("/", createNotification )
 router.get("/", getAllNotification )
 
+
 module.exports = router;

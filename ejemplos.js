@@ -6,7 +6,6 @@ let TUTOR ={
             "lastName": "apeAnto",
             "phone": "3245435435",
             "email": "azr@azr.es",
-            "password": "14dfg",
             "typeuserIdTypeUsers": "3"
         },
         {
@@ -14,7 +13,6 @@ let TUTOR ={
             "lastName": "apePepe",
             "phone": "87686858",
             "email": "pepe@gmail.com",
-            "password": "14dfg",
             "typeuserIdTypeUsers": "3"
         },
         {
@@ -22,7 +20,6 @@ let TUTOR ={
             "lastName": "apeLuia",
             "phone": "45342009624",
             "email": "lucia@hotmail.com",
-            "password": "14dfg",
             "typeuserIdTypeUsers": "3"
         }
     ],
@@ -45,7 +42,17 @@ let TUTOR ={
   }
 
 
-let POST_ADMINISTRATIVO =  
+let POST_ADMINISTRATIVO =  {
+    "type": "POST_ADMINISTRATIVO",
+    "users":
+        {
+            "firstNames": "Glenna",
+            "lastName": "Reichert",
+            "phone": "76495",
+            "email": "Chaim_McDermott@dana.io",
+            "typeuserIdTypeUsers": "1"
+        }
+  }
 
 let POST_SUPERVISOR = {
     "type": "POST_SUPERVISOR",
@@ -68,7 +75,6 @@ let POST_PRECEPTOR = {
           "lastName": "DuBuque",
           "phone": "31428",
           "email": "Rey.Padberg@karina.biz",
-          "password": "123dfg",
           "typeuserIdTypeUsers": "2",
           "idCourse": ["1", "5"]
       }
