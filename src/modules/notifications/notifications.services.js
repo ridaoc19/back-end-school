@@ -7,6 +7,7 @@ const notifications_students_user = require("../../core/database/relations/assoc
 module.exports = {
   // Crea Notificacion
   async createNotification(req, res) {
+    console.log(req.body)
     Notifications.create({
       subject: req.body.subject,
       body: req.body.body,
@@ -20,10 +21,11 @@ module.exports = {
       */
       senderId: req.body.senderId, //sender emisor el q envia
     }).then(async (notification) => {
+      // console.log(notification)
        let resultUser = await notification.setUsers(req.body.addresseeId) //addresee destinatario
        let resultStudents = await notification.setStudents(req.body.studentId) 
          
-       res.status(200).json([notification, resultUser, resultStudents]);
+       res.status(200).json("se guardo");
 
       }).catch((err) => res.status(400).json({ error: err.message }));
   },
@@ -34,7 +36,8 @@ module.exports = {
 
         include: [
           { model: Users, as: "sender", include: [{ model: TypeUsers }] },
-          { model: Users, as: "addressee", include: [{ model: Students },{ model: TypeUsers }] }
+          { model: Users, as: "addressee", include: [{ model: TypeUsers }] },
+          { model: Students }
       ],
       });
       console.log(addressee)

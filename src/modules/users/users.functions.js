@@ -10,6 +10,7 @@ const {
 } = require("../../core/database/relations/associations.js");
 
 module.exports = {
+  
   async administrativo(body, res) {
     let temPass = uuid().split("-")[0];
     await Email(temPass, body.users.email);

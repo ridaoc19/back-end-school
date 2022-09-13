@@ -31,8 +31,9 @@ Users.belongsToMany(Students, {through: 'users_students'})  // belongs To Many
 ///////////////////////////////NOTIFICACIONES ////////////////////////////////
 // // MUCHOS-MUCHOS -- notifications-users
 const notifications_users = sequelize.define("notifications_users", {}, { timestamps: false });
+// Notifications.belongsToMany(Users, {through: notifications_users,  foreignKey: "notificationId" }) // belongs To Many
 Notifications.belongsToMany(Users, {as: "addressee" ,through: notifications_users,  foreignKey: "notificationId" }) // belongs To Many
-Users.belongsToMany(Notifications, {as: "chao", through: notifications_users, foreignKey: "addresseeId" }) // belongs To Many
+Users.belongsToMany(Notifications, {through: notifications_users, foreignKey: "addresseeId" }) // belongs To Many
 
 // MUCHOS A MUCHOS --- notifications_users -> muchos STUDENTS
 const notifications_students = sequelize.define("notifications_students", {}, { timestamps: false });

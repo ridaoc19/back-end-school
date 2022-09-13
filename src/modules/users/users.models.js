@@ -67,6 +67,9 @@ Users.init(
     },
     active: {
       type: DataTypes.BOOLEAN,
+    },
+    initialState: {
+      type: DataTypes.BOOLEAN,
     }
   },
   { sequelize,
