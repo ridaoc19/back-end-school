@@ -15,6 +15,8 @@ router.use('/users', require('./src/modules/users/users.controller.js'));
 router.use('/notifications', require('./src/modules/notifications/notifications.controller.js'))
 router.use('/payments', require('./src/modules/payments/payments.controller.js'))
 router.use("/auth", google, require('./src/modules/users/users.controller.js'));
+router.use('/news', require('./src/modules/news/news.controller.js'))
+router.use('/favnews', require('./src/modules/favNews/favNews.controller.js'))
 
 module.exports = router;
 

@@ -121,3 +121,16 @@ let ELIMINAR = {
     "addresseeId": "1",
     "replyedFrom": "2"
 },
+
+///////////////////////////////////////NOTICIAS/////////////////////////////////////////////////
+
+{   
+    "title": "nuevas aulas de informatica",
+    "body": "se habilitaron las nuevas aulas",
+    "users_news": "1"
+}
+///////////////////////////////////////NOTICIAS FAVORITAS/////////////////////////////////////////////////
+
+{   
+    "fav_news": "1"
+}
