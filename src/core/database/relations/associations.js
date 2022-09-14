@@ -4,6 +4,8 @@ const Students = require("../../../modules/students/students.models.js");
 const Course = require("../../../modules/course/course.models.js")
 const Notifications = require("../../../modules/notifications/notifications.models.js");
 const Payments = require("../../../modules/payments/payments.models.js");
+const News = require("../../../modules/news/news.models.js");
+const FavNews = require("../../../modules/favNews/favNews.models.js");
 
 const sequelize = require("../db.js");
 const { DataTypes } = require("sequelize");
@@ -44,7 +46,14 @@ Students.belongsToMany(Notifications, {through: notifications_students, foreignK
 Users.hasMany(Notifications, { foreignKey: 'senderId' });
 Notifications.belongsTo(Users, {as: "sender",foreignKey: 'senderId' });
 
+//              NOTICIAS USUARIOS
 
+Users.hasMany(News, {foreignKey: 'users_news'});
+News.belongsTo(Users, {as: "poster",foreignKey: 'users_news'});
+//              NOTICIAS FAVORITAS
+
+News.hasMany(FavNews, {foreignKey: 'fav_news'});
+FavNews.belongsTo(News, {as: "favorites", foreignKey: 'fav_news'});
 
 
 
