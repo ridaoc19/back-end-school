@@ -55,6 +55,8 @@ News.belongsTo(Users, {as: "poster",foreignKey: 'users_news'});
 News.hasMany(FavNews, {foreignKey: 'fav_news'});
 FavNews.belongsTo(News, {as: "favorites", foreignKey: 'fav_news'});
 
+Users.hasMany(FavNews, {foreignKey: 'fav_user'});
+FavNews.belongsTo(Users, {as: "user", foreignKey: 'fav_user'});
 
 
 // Students.belongsToMany(users_notifications)
