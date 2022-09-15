@@ -7,7 +7,8 @@ module.exports = {
   async addFavNews(req, res) {
     FavNews.create({
       creationDate: Date.now(),
-      fav_news: req.body.fav_news,  // id de el q crea la notificacion
+      fav_news: req.body.fav_news,
+      fav_user: req.body.fav_user,
     })
       .then(async (news) => {
         res.status(200).json([news]);
@@ -19,7 +20,8 @@ module.exports = {
     try {
       let allNews = await FavNews.findAll({
         include: [
-          {model: News, as: "favorites"}
+          {model: News, as: "favorites", include: [{ model: Users, as: "poster"}] },
+          {model: Users, as: "user"}
         ],
       });
       res.status(200).json(allNews);
