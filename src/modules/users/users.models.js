@@ -71,6 +71,7 @@ Users.init(
     initialState: {
       type: DataTypes.BOOLEAN,
     }
+
   },
   { sequelize,
     modelName: "users",

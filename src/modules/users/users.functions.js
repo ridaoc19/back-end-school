@@ -10,12 +10,10 @@ const {
 } = require("../../core/database/relations/associations.js");
 
 module.exports = {
-  
   async administrativo(body, res) {
     let temPass = uuid().split("-")[0];
     await Email(temPass, body.users.email);
-    // console.log(temporaryPassword)
-    // let password = bcrypt.hashSync(temPass, 10);
+
     Users.create({
       firstNames: body.users.firstNames,
       lastName: body.users.lastName,
@@ -23,6 +21,7 @@ module.exports = {
       email: body.users.email,
       password: bcrypt.hashSync(temPass, 10),
       active: true,
+      initialState: true,
       typeuserIdTypeUsers: body.users.typeuserIdTypeUsers,
     })
       .then((user) => {
@@ -37,7 +36,6 @@ module.exports = {
     try {
       const user = await body.users.map((element) => {
         let temPass = uuid().split("-")[0];
-        // Email(temPass, body.users.email)
         let password = bcrypt.hashSync(temPass, 10);
         return {
           firstNames: element.firstNames,
@@ -46,6 +44,7 @@ module.exports = {
           email: element.email,
           password: password,
           active: true,
+          initialState: true,
           typeuserIdTypeUsers: element.typeuserIdTypeUsers,
         };
       });
@@ -82,6 +81,7 @@ module.exports = {
       email: body.users.email,
       password: bcrypt.hashSync(temPass, 10),
       active: true,
+      initialState: true,
       typeuserIdTypeUsers: body.users.typeuserIdTypeUsers,
     })
       .then((user) => {
@@ -95,25 +95,46 @@ module.exports = {
     return create;
   },
 
+  // RESTABLECER CONTRASEÑA
   async resPassword(req, res) {
-    Users.update(
-      {
-        password: bcrypt.hashSync(req.body.password, 10),
-      },
-      {
-        where: { idUser: req.body.idUser },
-      }
-    )
-      .then((user) => {
-        res.status(200).json(user);
-      })
-      .catch((err) => {
-        res.status(404).json(err);
-      });
+    const { email, password, idUser,type } = req.body;
+
+    switch (type) {
+      case "RESET":
+        try {
+
+          let response = await Users.findOne({ where: { email: email } })
+
+          if (!response) return res.status(200).json({ message: "Usuario no esta registrado, comunicarse con el colegio" })
+          
+          let temPass = uuid().split("-")[0];
+          await Email(temPass, response.email);
+
+          await Users.update({ password: bcrypt.hashSync(temPass, 10), initialState: true }, { where: { idUser: response.idUser } })
+
+          res.status(200).json({ message: `Se envio la nueva contrase al correo electronico ${response.email}` })
+
+        } catch (error) {
+          res.status(404).json({ err: error.message });
+        }
+        
+        break;
+
+        case "CHANGE":
+        
+          Users.update({ password: bcrypt.hashSync(password, 10), initialState: false }, { where: { idUser: idUser } })
+          .then((password) => res.status(200).json(password))
+          .catch((error) => res.status(404).json({err: error.message}));
+
+          break;
+
+          default:
+        return res.status(404).json("verifique")
+    }
+   
   },
 
-  async idUserInfo(idUser, res) {
-    console.log(idUser);
+  async idUserInfo(idUser, res, type) {
     Users.findByPk(idUser, {
       include: [
         { model: TypeUsers },
@@ -122,7 +143,7 @@ module.exports = {
       ],
     })
       .then((user) => {
-        res.status(200).json(user);
+        res.status(200).json([user, type]);
       })
       .catch((err) => res.status(400).json(err));
   },

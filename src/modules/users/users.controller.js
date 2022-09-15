@@ -6,9 +6,9 @@ router.post("/", createUser )
 router.get("/", getAll )
 router.put("/", putUser)
 router.put("/delete/:idUser", deleteUser)
-router.get("/password", getPassword )
+router.post("/password", getPassword )
 router.put("/password", resetPassword )
-router.get("/google", getGoogle)
+
 
 
 module.exports = router;

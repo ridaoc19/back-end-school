@@ -116,7 +116,7 @@ module.exports = {
   },
 
   async getPassword(req, res) {
-    console.log(req.body);
+
     Users.findOne({
       where: {
         email: req.body.email,
@@ -124,14 +124,14 @@ module.exports = {
     }).then(async (user) => {
       switch (req.body.type) {
         case "GOOGLE":
-          if(!user) return res.status(404).json({ msg: "Usuario no esta registrado, comniquese con la escuela" });
-          idUserInfo(user.idUser, res)
+          if(!user) return res.status(200).json({ msg: "Usuario no esta registrado, comniquese con la escuela" });
+          idUserInfo(user.idUser, res, "GOOGLE" )
           break;
         case "LOCAL":
-          if(!user) return res.status(404).json({ msg: "Verifica el usuario que esta ingresando" });
+          if(!user) return res.status(200).json({ msg: "Usuario ó Contraseña incorrecta" });
           const match = await bcrypt.compare(req.body.password, user.password);
-          if (!match) return res.status(404).json({ msg: "Contraseña incorrecta" });
-          idUserInfo(user.idUser, res)
+          if (!match) return res.status(200).json({ msg: "Usuario ó Contraseña incorrecta" });
+          idUserInfo(user.idUser, res, "LOCAL" )
           break;
       };
 
@@ -139,13 +139,10 @@ module.exports = {
   },
 
   async resetPassword(req, res) {
-    console.log(req.body);
     resPassword(req, res)
   },
 
-  getGoogle(req, res) {
-    idUserInfo(req.user.idUser, res)   
-  }
+
 
 
 };
