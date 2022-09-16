@@ -1,8 +1,8 @@
 const express = require('express');
 const router = express.Router();
+const {getAllTypeUsers} = require('./typeUsers.service');
 
-router.get("/", (req, res) => {
-    res.json("hola")
-})
+router.get("/", getAllTypeUsers)
+
 
 module.exports = router;
