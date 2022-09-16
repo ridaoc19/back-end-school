@@ -12,24 +12,45 @@ module.exports = {
       subject: req.body.subject,
       body: req.body.body,
       creationDate: Date.now(),
-      /*
-      active: true,
-      archived: false,
-      favorite: false,
-      check: false,
-      replyedFrom: req.body.replyedFrom //respuesta de
-      */
+      active: req.body.active,
+      check: req.body.check,//habilita la confirmacion de ser necesario
+      pay: req.body.pay,//habilita boton de pago de ser necesario
+      review: req.body.review, //puntaje para la notificacion si lo requiere
       senderId: req.body.senderId, //sender emisor el q envia
     }).then(async (notification) => {
-      // console.log(notification)
-       let resultUser = await notification.setUsers(req.body.addresseeId) //addresee destinatario
-       let resultStudents = await notification.setStudents(req.body.studentId) 
+      // Agrega a tabla intermedia los estudiantes a los que esta dirigida
+       await notification.setStudents(req.body.studentId) 
          
        res.status(200).json("se guardo");
 
       }).catch((err) => res.status(400).json({ error: err.message }));
   },
+  async putNotification(req, res) {
+    console.log("Notificacion a editar",req.body)
+    try {
+      let put = await Notifications.update(
+        {
+          subject: req.body.subject,
+          body: req.body.body,
+          creationDate: req.body.createDate,
+          active: req.body.active,
+          check: req.body.check,//habilita la confirmacion de ser necesario
+          pay: req.body.pay,//habilita boton de pago de ser necesario
+          review: req.body.review, //puntaje para la notificacion si lo requiere
+          senderId: req.body.senderId, //sender emisor el q envia
+        },
+        {
+          where: {
+            idNotifications: req.body.idNotifications,
+          },
+        }
+      );
 
+      res.status(200).json(put);
+    } catch (error) {
+      res.status(404).json({ error: error.message });
+    }
+  },
   async getAllNotification(req, res) {
     try {
       let addressee = await Notifications.findAll({

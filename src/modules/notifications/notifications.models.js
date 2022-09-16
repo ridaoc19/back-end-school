@@ -10,38 +10,35 @@ Notifications.init(
       autoIncrement: true,
     },
     subject: {    //asunto
-      type: DataTypes.STRING,
+      type: DataTypes.TEXT,
       allowNull: false,
 
     },
     body: {     //contenido
-      type: DataTypes.STRING,
+      type: DataTypes.TEXT,
       allowNull: false,
 
     },
     creationDate: {
       type: DataTypes.DATEONLY,
-    },
-    /*
-    notificationDate: {
-      type: DataTypes.DATEONLY,
+      defaultValue: sequelize.NOW,
     },
     active: {
       type: DataTypes.BOOLEAN,
-    },
-    archived: {
-      type: DataTypes.BOOLEAN,
-    },
-    favorite: {
-      type: DataTypes.BOOLEAN,
+      defaultValue: true,
     },
     check: {
       type: DataTypes.BOOLEAN,
+      allowNull: true,
     },
-    image: {
-      type: DataTypes.STRING,
-    }
-    */
+    pay: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: true,
+    },
+    review: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
+    },
   },
   { sequelize,
     modelName: "notifications",
