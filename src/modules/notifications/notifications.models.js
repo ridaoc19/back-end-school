@@ -12,12 +12,10 @@ Notifications.init(
     subject: {    //asunto
       type: DataTypes.TEXT,
       allowNull: false,
-
     },
     body: {     //contenido
       type: DataTypes.TEXT,
       allowNull: false,
-
     },
     creationDate: {
       type: DataTypes.DATEONLY,
@@ -25,19 +23,23 @@ Notifications.init(
     },
     active: {
       type: DataTypes.BOOLEAN,
+      allowNull: false,
       defaultValue: true,
     },
     check: {
       type: DataTypes.BOOLEAN,
-      allowNull: true,
+      allowNull: false,
+      defaultValue: false,
     },
     pay: {
       type: DataTypes.BOOLEAN,
-      defaultValue: true,
+      allowNull: false,
+      defaultValue: false,
     },
     review: {
-      type: DataTypes.INTEGER,
-      allowNull: true,
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: false,
     },
   },
   { sequelize,

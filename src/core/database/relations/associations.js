@@ -38,9 +38,32 @@ Notifications.belongsToMany(Users, {as: "addressee" ,through: notifications_user
 Users.belongsToMany(Notifications, {through: notifications_users, foreignKey: "addresseeId" }) // belongs To Many
 
 // MUCHOS A MUCHOS --- notifications_users -> muchos STUDENTS
-const notifications_students = sequelize.define("notifications_students", {}, { timestamps: false });
+const notifications_students = sequelize.define("notifications_students", {
+    idNotificationStudent: {
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      autoIncrement: true,
+    },
+    checkState: {
+      type: DataTypes.BOOLEAN,
+      defaultValue:false
+    },
+    score: {
+        type: DataTypes.INTEGER,
+        defaultValue:0
+    },
+    comments: {
+        type: DataTypes.TEXT,
+        allowNull: true,
+        defaultValue:null
+    },
+}, { timestamps: false });
+
 Notifications.belongsToMany(Students, {through: notifications_students,  foreignKey: "notificationsId" }) // belongs To Many
 Students.belongsToMany(Notifications, {through: notifications_students, foreignKey: "studentsId" }) // belongs To Many
+Notifications.hasMany(notifications_students, { foreignKey: 'notificationIntId' });
+notifications_students.belongsTo(Notifications, {foreignKey: 'notificationIntId' });
+
 
 // UNO-MUCHOS -- users-notificacion
 Users.hasMany(Notifications, { foreignKey: 'senderId' });
@@ -72,7 +95,7 @@ Payments.belongsToMany(Users, {through: 'users_payments'}) // belongs To Many
 Users.belongsToMany(Payments, {through: 'users_payments'}) // belongs To Many
 
 
-module.exports = {notifications_users}
+module.exports = {notifications_users,notifications_students}
 
 
 
