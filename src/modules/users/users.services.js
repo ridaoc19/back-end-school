@@ -61,7 +61,6 @@ module.exports = {
           },
           { model: Course },
         ],
-        attributes: ["idUser", "firstNames", "lastName", "phone", "email"],
       });
 
       res.status(200).json(getall);
@@ -82,6 +81,25 @@ module.exports = {
            
           typeuserIdTypeUsers: req.body.TypeUsers,
           },
+        {
+          where: {
+            idUser: req.body.idUser,
+          },
+        }
+      );
+
+      res.status(200).json(put);
+    } catch (error) {
+      res.status(404).json({ error: error.message });
+    }
+  },
+
+  async putUserActDes(req, res) {
+    try {
+      let put = await Users.update(
+        {
+          active: req.body.active,
+        },
         {
           where: {
             idUser: req.body.idUser,
