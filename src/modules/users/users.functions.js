@@ -34,9 +34,15 @@ module.exports = {
 
   async tutor(body, res) {
     try {
+
+      let paraEmail = [];
+
       const user = await body.users.map((element) => {
         let temPass = uuid().split("-")[0];
         let password = bcrypt.hashSync(temPass, 10);
+
+        paraEmail.push({password: temPass, email: element.email})
+
         return {
           firstNames: element.firstNames,
           lastName: element.lastName,
@@ -47,6 +53,10 @@ module.exports = {
           initialState: true,
           typeuserIdTypeUsers: element.typeuserIdTypeUsers,
         };
+      });
+
+      paraEmail.forEach( async (element) => {
+        await Email(element.password, element.email);
       });
 
       const users = await Users.bulkCreate(user);
@@ -135,6 +145,7 @@ module.exports = {
   },
 
   async idUserInfo(idUser, res, type) {
+    
     Users.findByPk(idUser, {
       include: [
         { model: TypeUsers },

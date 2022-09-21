@@ -1,6 +1,7 @@
 const Notifications = require("../notifications/notifications.models");
 const Students = require("./students.models");
-const Course = require("../course/course.models")
+const Course = require("../course/course.models");
+const Users = require("../users/users.models");
 
 module.exports = {
 
@@ -96,4 +97,36 @@ module.exports = {
     }
   },
 
+  async getStudentsCourse(req, res) {
+    try {
+
+      let students = await Students.findAll({
+        include: [
+          { model: Users,  attributes:[ "firstNames",  "lastName" ,"email"], through: { attributes: [] }}, 
+          { model: Course }           
+        ],
+        attributes:[ "idStudent", "firstNames",  "lastName", "dniStudent", "birthDate"],
+      });
+
+      let result = students?.map(s => {
+        return {
+          idStudent: s.idStudent,
+          firstNames: s.firstNames,
+          lastName: s.lastName,
+          dniStudent: s.dniStudent,
+          birthDate: s.birthDate,
+          idCourse: s.course.idCourse,
+          course: s.course.nameCourse,
+          tutors: s.users
+
+        }
+      })
+
+      // let course = await Course.findAll({attributes: { exclude: ['userIdUser'] }})
+
+      res.status(200).json(result);
+    } catch (error) {
+      res.status(404).json({ error: error.message });
+    }
+  },
 };
